@@ -37,9 +37,11 @@ jobs:
           gradle-version: '9.3.1'
 
       - name: Prepare Firebase config
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
-          if [ ! -f app/google-services.json ] && [ -n "${{ secrets.GOOGLE_SERVICES_JSON }}" ]; then
-            printf '%s' "${{ secrets.GOOGLE_SERVICES_JSON }}" > app/google-services.json
+          if [ ! -f app/google-services.json ] && [ -n "$GOOGLE_SERVICES_JSON" ]; then
+            printf '%s\n' "$GOOGLE_SERVICES_JSON" > app/google-services.json
           fi
           if [ ! -f app/google-services.json ]; then
             echo "::error::Missing app/google-services.json. Add it to your private repo or set the GOOGLE_SERVICES_JSON secret."
@@ -47,11 +49,13 @@ jobs:
           fi
 
       - name: Prepare debug keystore
+        env:
+          DEBUG_KEYSTORE_BASE64: ${{ secrets.DEBUG_KEYSTORE_BASE64 }}
         run: |
           if [ -f debug.keystore.base64 ]; then
-            base64 -d debug.keystore.base64 > debug.keystore
-          elif [ -n "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" ]; then
-            printf '%s' "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 -d > debug.keystore
+            tr -d '\r\n ' < debug.keystore.base64 | base64 -d > debug.keystore
+          elif [ -n "$DEBUG_KEYSTORE_BASE64" ]; then
+            printf '%s' "$DEBUG_KEYSTORE_BASE64" | tr -d '\r\n ' | base64 -d > debug.keystore
           elif [ ! -f debug.keystore ]; then
             echo "::warning::debug.keystore.base64 not found; generating temporary debug.keystore (Google Sign-In requires matching SHA-1 in Firebase)"
             keytool -genkeypair -v \
