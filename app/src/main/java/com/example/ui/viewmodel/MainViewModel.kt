@@ -121,11 +121,13 @@ class MainViewModel(
         viewModelScope.launch {
             val savedUrl = preferencesRepository.preferredLiftUrl.first()
             _liftSourceUrl.value = savedUrl
+            preferencesRepository.setPreferredLiftUrl(savedUrl)
             watchPartyRepository.ensureUserProfile(
                 displayName = currentUserDisplayName,
                 photoUrl = currentUserPhotoUrl,
                 preferredLiftUrl = savedUrl,
             )
+            watchPartyRepository.updatePreferredLiftUrl(savedUrl)
             fetchLiftSite(savedUrl)
         }
     }

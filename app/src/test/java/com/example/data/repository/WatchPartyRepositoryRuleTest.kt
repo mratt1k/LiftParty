@@ -20,7 +20,7 @@ class WatchPartyRepositoryRuleTest : FirestoreEmulatorTestBase() {
         val aliceRepo = WatchPartyRepository(firestore, auth)
 
         val profileResult = withTimeout(DEFAULT_TIMEOUT_MS) {
-            aliceRepo.ensureUserProfile("Alice", null, "https://www.viewlift.com")
+            aliceRepo.ensureUserProfile("Alice", null, "https://lift.ws")
         }
         assertTrue(profileResult.isSuccess)
 
@@ -30,10 +30,10 @@ class WatchPartyRepositoryRuleTest : FirestoreEmulatorTestBase() {
                     id = UUID.randomUUID().toString(),
                     title = "Lift Showcase",
                     description = "Sample fetched Lift item",
-                    sourcePageUrl = "https://www.viewlift.com/watch/showcase",
+                    sourcePageUrl = "https://lift.ws/watch/showcase",
                     streamUrl = "https://example.com/showcase.m3u8",
                     thumbnailUrl = "https://example.com/thumb.jpg",
-                    sourceDomain = "viewlift.com",
+                    sourceDomain = "lift.ws",
                 )
             ).getOrThrow()
         }
@@ -60,10 +60,10 @@ class WatchPartyRepositoryRuleTest : FirestoreEmulatorTestBase() {
         val room = withTimeout(DEFAULT_TIMEOUT_MS) {
             aliceRepo.createWatchRoom(
                 title = "Lift Live Premiere ${UUID.randomUUID().toString().take(6)}",
-                sourcePageUrl = "https://www.viewlift.com/watch/premiere",
+                sourcePageUrl = "https://lift.ws/watch/premiere",
                 streamUrl = "https://example.com/premiere.m3u8",
                 thumbnailUrl = "",
-                sourceDomain = "viewlift.com",
+                sourceDomain = "lift.ws",
                 hostName = "Alice",
                 isPublic = true,
             ).getOrThrow()

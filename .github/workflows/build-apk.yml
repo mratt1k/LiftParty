@@ -36,6 +36,16 @@ jobs:
         with:
           gradle-version: '9.3.1'
 
+      - name: Prepare Firebase config
+        run: |
+          if [ ! -f app/google-services.json ] && [ -n "${{ secrets.GOOGLE_SERVICES_JSON }}" ]; then
+            printf '%s' "${{ secrets.GOOGLE_SERVICES_JSON }}" > app/google-services.json
+          fi
+          if [ ! -f app/google-services.json ]; then
+            echo "::error::Missing app/google-services.json. Add it to your private repo or set the GOOGLE_SERVICES_JSON secret."
+            exit 1
+          fi
+
       - name: Prepare debug keystore
         run: |
           if [ -f debug.keystore.base64 ]; then

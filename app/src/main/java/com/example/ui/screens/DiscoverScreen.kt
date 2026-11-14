@@ -142,7 +142,7 @@ fun DiscoverScreen(
                             value = urlInput,
                             onValueChange = { urlInput = it },
                             singleLine = true,
-                            placeholder = { Text("https://www.viewlift.com") },
+                            placeholder = { Text("https://lift.ws") },
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Language,

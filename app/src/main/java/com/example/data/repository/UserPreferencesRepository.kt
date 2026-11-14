@@ -15,7 +15,12 @@ private val Context.liftPartyDataStore: DataStore<Preferences> by preferencesDat
 class UserPreferencesRepository(private val context: Context) {
 
     val preferredLiftUrl: Flow<String> = context.liftPartyDataStore.data.map { prefs ->
-        prefs[KEY_LIFT_URL] ?: UserProfile.DEFAULT_LIFT_URL
+        val stored = prefs[KEY_LIFT_URL]
+        if (stored.isNullOrBlank() || stored.contains("viewlift.com", ignoreCase = true)) {
+            UserProfile.DEFAULT_LIFT_URL
+        } else {
+            stored
+        }
     }
 
     suspend fun setPreferredLiftUrl(url: String) {

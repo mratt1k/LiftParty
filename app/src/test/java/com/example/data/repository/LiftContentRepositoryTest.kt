@@ -26,16 +26,16 @@ class LiftContentRepositoryTest {
                 <title>Lift Streaming</title>
                 <meta property="og:title" content="Lift Featured Film" />
                 <meta property="og:description" content="Watch independent cinema on Lift." />
-                <meta property="og:image" content="https://www.viewlift.com/thumb.jpg" />
-                <meta property="og:video" content="https://cdn.viewlift.com/featured/master.m3u8" />
+                <meta property="og:image" content="https://lift.ws/thumb.jpg" />
+                <meta property="og:video" content="https://cdn.lift.ws/featured/master.m3u8" />
                 <script type="application/ld+json">
                   {
                     "@type": "VideoObject",
                     "name": "Behind the Lift",
                     "description": "Creator documentary",
-                    "contentUrl": "https://cdn.viewlift.com/doc.mp4",
-                    "thumbnailUrl": "https://www.viewlift.com/doc.jpg",
-                    "url": "https://www.viewlift.com/watch/behind-the-lift"
+                    "contentUrl": "https://cdn.lift.ws/doc.mp4",
+                    "thumbnailUrl": "https://lift.ws/doc.jpg",
+                    "url": "https://lift.ws/watch/behind-the-lift"
                   }
                 </script>
               </head>
@@ -65,13 +65,13 @@ class LiftContentRepositoryTest {
             .build()
 
         val repo = LiftContentRepository(fakeClient)
-        val result = repo.fetchFromLift("https://www.viewlift.com").getOrThrow()
+        val result = repo.fetchFromLift("https://lift.ws").getOrThrow()
 
         assertEquals("Lift Featured Film", result.pageTitle)
-        assertEquals("https://cdn.viewlift.com/featured/master.m3u8", result.primaryStreamUrl)
-        assertTrue(result.detectedStreamUrls.contains("https://cdn.viewlift.com/featured/master.m3u8"))
-        assertTrue(result.detectedStreamUrls.contains("https://cdn.viewlift.com/doc.mp4"))
-        assertTrue(result.items.any { it.title == "Behind the Lift" && it.streamUrl == "https://cdn.viewlift.com/doc.mp4" })
-        assertTrue(result.items.any { it.title == "Night Shift" && it.sourcePageUrl == "https://www.viewlift.com/watch/night-shift" })
+        assertEquals("https://cdn.lift.ws/featured/master.m3u8", result.primaryStreamUrl)
+        assertTrue(result.detectedStreamUrls.contains("https://cdn.lift.ws/featured/master.m3u8"))
+        assertTrue(result.detectedStreamUrls.contains("https://cdn.lift.ws/doc.mp4"))
+        assertTrue(result.items.any { it.title == "Behind the Lift" && it.streamUrl == "https://cdn.lift.ws/doc.mp4" })
+        assertTrue(result.items.any { it.title == "Night Shift" && it.sourcePageUrl == "https://lift.ws/watch/night-shift" })
     }
 }

@@ -83,7 +83,9 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
 import com.example.R
 import com.example.data.model.RoomMessage
@@ -91,6 +93,7 @@ import com.example.data.model.WatchRoom
 import com.example.ui.viewmodel.UiState
 import com.example.ui.viewmodel.WatchRoomViewModel
 import kotlinx.coroutines.delay
+import java.net.URI
 import kotlin.math.abs
 
 private val REACTION_EMOJIS = listOf("🔥", "😂", "😮", "❤️", "👏", "🍿")
@@ -109,8 +112,16 @@ fun WatchRoomScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val exoPlayer = remember(context) {
-        ExoPlayer.Builder(context).build()
+    val httpDataSourceFactory = remember {
+        DefaultHttpDataSource.Factory()
+            .setUserAgent("Mozilla/5.0 (Linux; Android 15; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36")
+            .setAllowCrossProtocolRedirects(true)
+    }
+
+    val exoPlayer = remember(context, httpDataSourceFactory) {
+        ExoPlayer.Builder(context)
+            .setMediaSourceFactory(DefaultMediaSourceFactory(httpDataSourceFactory))
+            .build()
     }
 
     var isBuffering by remember { mutableStateOf(true) }
@@ -178,6 +189,19 @@ fun WatchRoomScreen(
             loadedStreamUrl = activeRoom.streamUrl
             playerError = null
             isBuffering = true
+            val headers = buildMap {
+                val pageUrl = activeRoom.sourcePageUrl
+                if (pageUrl.startsWith("http", ignoreCase = true)) {
+                    put("Referer", pageUrl)
+                    runCatching {
+                        val u = URI(pageUrl)
+                        if (!u.scheme.isNullOrBlank() && !u.host.isNullOrBlank()) {
+                            put("Origin", "${u.scheme}://${u.host}")
+                        }
+                    }
+                }
+            }
+            httpDataSourceFactory.setDefaultRequestProperties(headers)
             exoPlayer.setMediaItem(MediaItem.fromUri(activeRoom.streamUrl))
             exoPlayer.prepare()
             if (activeRoom.playbackPositionMs > 0L) {

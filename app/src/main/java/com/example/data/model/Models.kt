@@ -16,7 +16,7 @@ data class UserProfile(
     @ServerTimestamp val updatedAt: Timestamp? = null,
 ) {
     companion object {
-        const val DEFAULT_LIFT_URL = "https://www.viewlift.com"
+        const val DEFAULT_LIFT_URL = "https://lift.ws"
     }
 }
 
