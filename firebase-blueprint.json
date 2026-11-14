@@ -1,0 +1,253 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user profile and preferred Lift website configuration.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name shown in watch parties."
+        },
+        "photoUrl": {
+          "type": "string",
+          "description": "Optional avatar URL."
+        },
+        "preferredLiftUrl": {
+          "type": "string",
+          "description": "Configured Lift website URL for content fetching."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp set via FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp set via FieldValue.serverTimestamp()."
+        }
+      },
+      "required": ["userId", "displayName", "preferredLiftUrl", "createdAt", "updatedAt"]
+    },
+    "SavedLiftMedia": {
+      "title": "SavedLiftMedia",
+      "description": "A media item fetched from the Lift website and bookmarked by a user.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner Firebase Auth UID."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the Lift media item."
+        },
+        "description": {
+          "type": "string",
+          "description": "Summary or metadata description parsed from Lift."
+        },
+        "sourcePageUrl": {
+          "type": "string",
+          "description": "Origin page URL on the Lift website."
+        },
+        "streamUrl": {
+          "type": "string",
+          "description": "Playable video or HLS/DASH stream URL extracted from Lift."
+        },
+        "thumbnailUrl": {
+          "type": "string",
+          "description": "Preview thumbnail image URL."
+        },
+        "sourceDomain": {
+          "type": "string",
+          "description": "Domain name of the Lift source."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp set via FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Update timestamp set via FieldValue.serverTimestamp()."
+        }
+      },
+      "required": ["userId", "title", "sourcePageUrl", "sourceDomain", "createdAt", "updatedAt"]
+    },
+    "WatchRoom": {
+      "title": "WatchRoom",
+      "description": "Synchronized watch party room playing media fetched from Lift.",
+      "type": "object",
+      "properties": {
+        "hostId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the room host."
+        },
+        "hostName": {
+          "type": "string",
+          "description": "Display name of the host."
+        },
+        "title": {
+          "type": "string",
+          "description": "Media or watch party title."
+        },
+        "sourcePageUrl": {
+          "type": "string",
+          "description": "Lift website page URL for the media."
+        },
+        "streamUrl": {
+          "type": "string",
+          "description": "Direct video/HLS/DASH stream URL being watched together."
+        },
+        "thumbnailUrl": {
+          "type": "string",
+          "description": "Thumbnail image URL."
+        },
+        "sourceDomain": {
+          "type": "string",
+          "description": "Source Lift website host domain."
+        },
+        "roomCode": {
+          "type": "string",
+          "description": "Short join code for the room."
+        },
+        "isPublic": {
+          "type": "boolean",
+          "description": "Whether the room appears in the public lobby."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "ended"],
+          "description": "Current room lifecycle state."
+        },
+        "isPlaying": {
+          "type": "boolean",
+          "description": "Synchronized play/pause flag."
+        },
+        "playbackPositionMs": {
+          "type": "integer",
+          "description": "Host playback position in milliseconds."
+        },
+        "playbackRate": {
+          "type": "number",
+          "description": "Playback speed multiplier."
+        },
+        "syncVersion": {
+          "type": "integer",
+          "description": "Monotonically incremented sync counter."
+        },
+        "memberUids": {
+          "type": "string",
+          "description": "Bounded array (max 25) of joined participant UIDs."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Room creation timestamp set via FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last sync/room update timestamp set via FieldValue.serverTimestamp()."
+        }
+      },
+      "required": [
+        "hostId",
+        "hostName",
+        "title",
+        "sourcePageUrl",
+        "streamUrl",
+        "sourceDomain",
+        "roomCode",
+        "isPublic",
+        "status",
+        "isPlaying",
+        "playbackPositionMs",
+        "playbackRate",
+        "syncVersion",
+        "memberUids",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "RoomMessage": {
+      "title": "RoomMessage",
+      "description": "Live chat message or emoji reaction inside a watch party room.",
+      "type": "object",
+      "properties": {
+        "roomId": {
+          "type": "string",
+          "description": "Parent WatchRoom document ID."
+        },
+        "senderId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the sender."
+        },
+        "senderName": {
+          "type": "string",
+          "description": "Display name of the sender."
+        },
+        "text": {
+          "type": "string",
+          "description": "Message text content."
+        },
+        "reactionEmoji": {
+          "type": "string",
+          "description": "Optional reaction emoji."
+        },
+        "messageType": {
+          "type": "string",
+          "enum": ["chat", "reaction", "system"],
+          "description": "Message category."
+        },
+        "isPublic": {
+          "type": "boolean",
+          "description": "Denormalized visibility matching parent room."
+        },
+        "memberUids": {
+          "type": "string",
+          "description": "Denormalized bounded array of participant UIDs for private room list isolation."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp set via FieldValue.serverTimestamp()."
+        }
+      },
+      "required": [
+        "roomId",
+        "senderId",
+        "senderName",
+        "text",
+        "messageType",
+        "isPublic",
+        "memberUids",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Per-user profile and Lift source settings."
+    },
+    "/users/{userId}/saved_media/{mediaId}": {
+      "schema": { "$ref": "#/entities/SavedLiftMedia" },
+      "description": "User's bookmarked Lift media items."
+    },
+    "/watch_rooms/{roomId}": {
+      "schema": { "$ref": "#/entities/WatchRoom" },
+      "description": "Synchronized watch party rooms for Lift media."
+    },
+    "/watch_rooms/{roomId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/RoomMessage" },
+      "description": "Live chat messages and reactions within a watch party room."
+    }
+  }
+}

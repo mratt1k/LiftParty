@@ -1,0 +1,6 @@
+{
+  "name": "LiftParty",
+  "description": "Watch media content from Lift together in synchronized watch parties with live chat and real-time playback sync.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

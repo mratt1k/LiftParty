@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">LiftParty</string>
+    <string name="auth_headline">Watch Lift Together</string>
+    <string name="auth_subtitle">Fetch streams from any Lift website, sync playback frame-for-frame, and react live with friends.</string>
+    <string name="auth_sign_in_google">Sign in with Google</string>
+    <string name="auth_feature_fetch">Fetch Lift Media</string>
+    <string name="auth_feature_sync">Real-Time Sync</string>
+    <string name="auth_feature_chat">Live Lounge Chat</string>
+
+    <string name="nav_discover">Discover</string>
+    <string name="nav_parties">Parties</string>
+    <string name="nav_watchlist">Watchlist</string>
+
+    <string name="discover_title">Lift Content</string>
+    <string name="discover_hero_title">Stream from Lift Together</string>
+    <string name="discover_hero_subtitle">Fetch media from your Lift source or open the Lift Explorer to capture any video stream.</string>
+    <string name="action_open_browser">Lift Explorer</string>
+    <string name="action_paste_url">Paste URL</string>
+    <string name="action_fetch">Fetch</string>
+    <string name="action_watch_together">Watch Together</string>
+    <string name="action_save_watchlist">Save</string>
+    <string name="action_saved">Saved</string>
+
+    <string name="parties_title">Watch Parties</string>
+    <string name="parties_join_code_hint">Enter 6-char room code</string>
+    <string name="parties_join_button">Join</string>
+    <string name="parties_empty_title">No Live Watch Parties</string>
+    <string name="parties_empty_subtitle">Fetch a stream from Lift or open the Lift Explorer to host the first watch party.</string>
+
+    <string name="watchlist_title">Saved &amp; Source</string>
+    <string name="watchlist_empty_title">Your Watchlist is Empty</string>
+    <string name="watchlist_empty_subtitle">Bookmark videos fetched from Lift to launch watch parties in one tap.</string>
+    <string name="sign_out">Sign Out</string>
+
+    <string name="room_host_badge">HOST</string>
+    <string name="room_synced_badge">SYNCED</string>
+    <string name="room_resync">Re-sync</string>
+    <string name="room_end_party">End Party</string>
+    <string name="room_leave_party">Leave</string>
+    <string name="room_share_invite">Invite</string>
+    <string name="room_chat_hint">Say something to the room…</string>
+    <string name="room_ended_banner">The host ended this watch party.</string>
+</resources>
